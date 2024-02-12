@@ -1,0 +1,32 @@
+# Instalar y cargar los paquetes necesarios
+install.packages("vegan")
+install.packages("maps")
+install.packages("mapdata")
+library(vegan)
+library(maps)
+library(mapdata)
+
+# Cargar los datos de especies (pueden ser datos de presencia/ausencia o recuentos)
+# dataframe llamado 'datos_especies' con las especies como columnas y las ubicaciones como filas.
+
+# Calcular la diversidad alfa (riqueza de especies)
+riqueza_especies <- rowSums(!is.na(datos_especies)) # auma de especies presentes en cada ubicación
+
+# Calcular la diversidad beta
+distancia_jaccard <- vegdist(datos_especies, method = "jaccard") # Calcular la distancia de Jaccard
+diversidad_beta <- betadiver(distancia_jaccard)
+
+# Generar el mapa de riqueza de especies (diversidad alfa)
+map("world", fill=TRUE, col="white", bg="lightblue", ylim=c(-60, 90), mar=c(0,0,0,0))
+points(diversidad_alpa, col="red", pch=20, cex=log(diversidad_alpa), add=TRUE)
+title("Mapa de Riqueza de Especies (Diversidad Alfa)")
+
+#Generar el mapa de diversidad beta
+map("world", fill=TRUE, col="white", bg="lightblue", ylim=c(-60, 90), mar=c(0,0,0,0))
+points(diversidad_beta, col="blue", pch=20, cex=log(diversidad_beta), add=TRUE)
+title("Mapa de Diversidad Beta")
+
+# Guardar los mapas como imágenes
+# saveas(filename="riqueza_especies.png")
+# saveas(filename="diversidad_beta.png")
+
